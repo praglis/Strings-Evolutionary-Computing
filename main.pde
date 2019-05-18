@@ -53,13 +53,17 @@ class GA{
 
 //
 class Population{
-  ArrayList<DNA> population = new ArrayList();
+  ArrayList<DNA> population; 
 
-  //generates random population
-  //@Magda
-  Population(int pop_size, int length){
+  //generates random population, @Magda
+  Population(int pop_size, int len){
+    population = new ArrayList<DNA>();
     for(int i=0; i<pop_size; i++)
-      population[i] = new DNA(length);
+      population.add(new DNA(len));
+  }
+  
+  Population(){
+    population = new ArrayList<DNA>();
   }
   
   //@Pawel
