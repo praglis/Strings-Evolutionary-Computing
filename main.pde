@@ -1,3 +1,4 @@
+import java.util.Random;
 void setup() {
   size(640, 360);
   
@@ -35,17 +36,18 @@ class GA{
   
   // @Daniel
   void algorithm(){
-    for()
-      step(generacji)
+    //for()
+      //step(generacji);
   }
   // @Daniel
+  /*
   void step(generation, matingPool){
       //create mating pool, make crossovers (checking probabilities), mutate children accordingly and set best DNA of the generation.
       pop.createMatingPool();
       crossovers
       mutations
      
-  }
+  }*/
 
 
 
@@ -92,7 +94,7 @@ class Population{
     if(crossover <= pc){ 
       child = parentA.crossover(parentB, midpoints);
       if(mutation <= pm)
-        child.mutate();
+        child.mutate(1);
       population.add(child);
     }
   }
@@ -101,8 +103,8 @@ class Population{
 
 //@Pawel
 class DNA {
-  char[] genes;
-  int fitness;
+  private char[] genes;
+  private int fitness;
   
   void checkifbest(){}
   DNA(int length){
@@ -112,9 +114,25 @@ class DNA {
       genes[i] = (char) random(32,126);
   }
   
-  //returns how many characters fit the target phrase
-  int fitness(String target){
-    return 0;
+  /**
+  * @fun calculateFitness
+  * @brief Calculates fitness value, comparing the object with target.
+  * @param target string
+  */
+  void calculateFitness(String target){
+    int fitness = 0;
+    for(int i=0; i<target.length(); i++){
+      if(genes[i] == target.toCharArray()[i]) fitness++;
+    }
+    this.fitness = fitness;
+  }
+  
+  /**
+  * @fun getFitness
+  * @return fitness value
+  */
+  int getFitness(){
+    return this.fitness;
   }
   
   //crossover method (krzyżowanie)
@@ -125,13 +143,36 @@ class DNA {
     return child;
   }
   
-  void mutate(){
-    //int mutation = random (1, np. 0.3*len)
-    //mutation of the given number of letters
+  /**
+  * @fun mutate
+  * @brief Performs mutation of the given number of genes.
+  * @param number of randlomly affected genes
+  */
+  void mutate(int numberOfGenes){
+    Random generator = new Random();
+    int locus;
+    for(int i=0; i<numberOfGenes; i++){
+      locus = generator.nextInt(genes.length);
+      genes[locus] = (char) (generator.nextInt(90) + 32);
+    }
   }
   
-  String toString
-    return new String(genes);
+  /**
+  * @fun mutate
+  * @brief Performs mutation of the random number of genes.
+  */
+  void mutate(){
+    Random generator = new Random();
+    int locus, numberOfGenes;
+    numberOfGenes = generator.nextInt(genes.length-1) + 1;
+    for(int i=0; i<numberOfGenes; i++){
+      locus = generator.nextInt(genes.length);
+      genes[locus] = (char) (generator.nextInt(90) + 32);
+    }
   }
-
+  
+  
+  public String toString(){//overriding the toString() method  
+  return new String(genes);  
+ }  
 }
