@@ -20,12 +20,17 @@ class GA{
   float pm;
   float pc;
   int iterations;
+  int len;
   
   // @Magda
-  GA(int iterations, int pop, ...){
-    //bests
-    //generations = new..
-    //generations[0] = new Population(pop_size, length);
+  GA(int iterations, int pop_size, float pm, float pc, int len){
+    this.iterations = iterations;
+    this.pop_size = pop_size;
+    this.pm = pm;
+    this.pc = pc;
+    this.len = len;
+    this.generations = new ArrayList<Population>();
+    generations.add(new Population(pop_size, len));
   }
   
   // @Daniel
