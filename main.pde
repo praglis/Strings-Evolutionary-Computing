@@ -4,48 +4,90 @@ void setup() {
   String  target = "Phrase to find"; // ASCII characters: <32,126>
   int length = target.length();
   
-  int pop_size = 50;
-  float pm;
-  float pc;
-  
-  Population population = new Population(pop_size, length);
 }
 
+//@Magda with help
 void draw(){
   // print: the best fit, total generations, average fitness, total population, mutation rate etc.
   // print: all generated phrases
 }
 
-class Population{
-  DNA[] population;
+
+class GA{
+  ArrayList<Population> generations;
+ 
+  int pop_size;
+  float pm;
+  float pc;
+  int iterations;
   
+  // @Magda
+  GA(int iterations, int pop, ...){
+    //bests
+    //generations = new..
+    //generations[0] = new Population(pop_size, length);
+  }
+  
+  // @Daniel
+  void algorithm(){
+    for()
+      step(generacji)
+  }
+  // @Daniel
+  void step(generation, matingPool){
+      //create mating pool, make crossovers (checking probabilities), mutate children accordingly and set best DNA of the generation.
+      pop.createMatingPool();
+      crossovers
+      mutations
+     
+  }
+
+
+
+}
+
+//
+class Population{
+  ArrayList<DNA> population = new ArrayList();
+
   //generates random population
+  //@Magda
   Population(int pop_size, int length){
     for(int i=0; i<pop_size; i++)
       population[i] = new DNA(length);
   }
   
+  //@Pawel
   void createMatingPool(){
-    //implementing either a list or a dictionary
-    //with probability for each DNA how likely it is for it to become a parent
+    // for(int i=0; i<pop_size; i++) DNA.fitness()
+    // implementing either a list or a dictionary
+    // with probability for each DNA how likely it is for it to become a parent
+    //return matingPool;
   }
   
-  void reproduction(){
+  //@Magda
+  void reproduction(float pc){
     DNA parentA = new DNA(5);
     DNA parentB = new DNA(5); // parents = random elements from mating pool 
     //(with applied correct probability based on fitness of each element)  
-    DNA child = parentA.crossover(parentB);
+    float c = random(0,1);
+    int midpoints;
+    DNA child = parentA.crossover(parentB, midpoints);
     child.mutate();
     
-   
+    child add to population
+    child.checkifbest()
   }
+  
   
 }
 
+//@Pawel
 class DNA {
   char[] genes;
   int fitness;
   
+  void checkifbest(){}
   DNA(int length){
     this.genes = new char[length];
     
@@ -59,18 +101,18 @@ class DNA {
   }
   
   //crossover method (krzyżowanie)
-  DNA crossover(DNA partner){
+  DNA crossover(DNA partner, int midpoints){
     DNA child = new DNA(5);
     //float pc = random(0,1);
     //we need to implement different crossover methods and choose one of them here
     return child;
   }
   
-  void mutate(){
-    //float pm = random (0,1);
+  void mutate(int mutations){
+    //mutation of the given number of letters
   }
   
-  String getPhrase(){
+  String toString
     return new String(genes);
   }
 
