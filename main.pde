@@ -74,21 +74,29 @@ class Population{
     //return matingPool;
   }
   
-  //@Magda
-  void reproduction(float pc){
-    DNA parentA = new DNA(5);
-    DNA parentB = new DNA(5); // parents = random elements from mating pool 
-    //(with applied correct probability based on fitness of each element)  
-    float c = random(0,1);
-    int midpoints;
-    DNA child = parentA.crossover(parentB, midpoints);
-    child.mutate();
-    
-    child add to population
-    child.checkifbest()
+  //@Pawel, getting parent from marting pool
+  DNA getParent(){
+    return new DNA(5);
   }
   
-  
+  //@Magda
+  void reproduction(float pc, float pm){
+    DNA parentA = getParent();
+    DNA parentB = getParent(); 
+    DNA child;
+    
+    float crossover = random(0,1);
+    float mutation = random(0,1);
+    int midpoints = (int) random(0,8); //hardcoded max. number
+    
+    if(crossover <= pc){ 
+      child = parentA.crossover(parentB, midpoints);
+      if(mutation <= pm)
+        child.mutate();
+      population.add(child);
+    }
+  }
+
 }
 
 //@Pawel
@@ -117,7 +125,8 @@ class DNA {
     return child;
   }
   
-  void mutate(int mutations){
+  void mutate(){
+    //int mutation = random (1, np. 0.3*len)
     //mutation of the given number of letters
   }
   
