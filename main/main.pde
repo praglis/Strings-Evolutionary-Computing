@@ -41,7 +41,7 @@ class GA{
   * @brief Change parameters of algorithm
   * @return void
   */
-  void changeParameters(int population, float pm, float pc){
+  public void changeParameters(int population, float pm, float pc){
     this.pop_size = population;
     this.pm = pm;
     this.pc = pc;
@@ -52,7 +52,7 @@ class GA{
   * @brief Delete old and create new population
   * @return void
   */
-  void createNewPopulation(int population, int len){
+  public void createNewPopulation(int population, int len){
     this.iterator = 0;
     this.generations.clear();
     this.generations = new ArrayList<Population>();
