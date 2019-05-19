@@ -37,6 +37,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun changeParameters
   * @brief Change parameters of algorithm
   * @return void
@@ -48,6 +49,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun createNewPopulation
   * @brief Delete old and create new population
   * @return void
@@ -60,6 +62,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun algorithm
   * @brief Create mating pool, make crossovers (checking probabilities), mutate children accordingly and set best DNA of the generation.
   * @return void
@@ -84,6 +87,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun auto
   * @brief Automatically run algorithm. Stops when stopping conditions are achieved
   * @return void
@@ -95,6 +99,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun fineStep
   * @brief Passing one generation. Run algorithm one time. 
   * @return void
@@ -104,6 +109,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun step
   * @brief Passing "count" generations. Run algorithm "count" times. 
   * @param count of iterations
@@ -116,6 +122,7 @@ class GA{
   }
   
   /**
+  * @author Daniel Skórczyński
   * @fun getIterator
   * @brief Returns algorithm iterator
   * @return int iterator
