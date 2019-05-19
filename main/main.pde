@@ -126,6 +126,7 @@ class GA{
 //
 class Population{
   ArrayList<DNA> population; 
+  DNA best;
 
   //generates random population, @Magda
   Population(int pop_size, int len){
@@ -138,23 +139,65 @@ class Population{
     population = new ArrayList<DNA>();
   }
   
-  //@Pawel
-  void createMatingPool(){
-    // for(int i=0; i<pop_size; i++) DNA.fitness()
-    // implementing either a list or a dictionary
-    // with probability for each DNA how likely it is for it to become a parent
-    //return matingPool;
+  /**
+  * @author Paweł Raglis
+  * @fun createMatingPool
+  * @brief Calculates propability of being parent for each chromosome (DNA object) in the population based on its fitness value.
+  * @return DNA array of size 100 - one element corresponds to 1% chance of being parent
+  * @see getParent
+  */
+  DNA[] createMatingPool(){
+    DNA[] matingPool = new DNA[100];
+    int propability, fitnessSum = 0, k =0;
+    for(int i=0; i<this.population.size(); i++) fitnessSum += this.population.get(i).getFitness();
+    for(int i=0; i<this.population.size(); i++) {
+      propability = this.population.get(i).getFitness() / fitnessSum * 100;
+      for(int j=0; j<propability; j++, k++) matingPool[k] = this.population.get(i);
+    }
+    return matingPool;
   }
   
-  //@Pawel, getting parent from marting pool
-  DNA getParent(){
-    return new DNA(5);
+/**
+  * @author Paweł Raglis
+  * @fun getParent
+  * @brief Returns random chromosome for being parent from matingPool based on previously calculated propability. See createMatingPool()
+  * @param mating pool (DNA array)
+  * @return randomly chosen parent
+  * @see createMatingPool
+  */
+  DNA getParent(DNA[] matingPool){
+    Random generator = new Random();
+    return matingPool[generator.nextInt(matingPool.length)];
+  }
+  
+  /**
+  * @fun checkIfBetter
+  * @brief Checks if given DNA object has higher fitness value than the best from the population.
+  * @param DNA object given to compare with the best from the population
+  * @return DNA object with higher fitness value
+  */
+  public DNA checkIfBetter(DNA pretender){
+    if(pretender.getFitness() > this.best.getFitness()) return pretender;
+    else return this.best;
+  }
+  
+  /**
+  * @fun compareDNA
+  * @brief Compares fitness values of given DNA instances.
+  * @param DNA object given to compare with another
+  * @param DNA object given to compare with another
+  * @return DNA object with higher fitness value
+  */
+  public DNA compareDNA(DNA chromosome1, DNA chromosome2){
+    if(chromosome1.getFitness() >= chromosome2.getFitness()) return chromosome1;
+    else return chromosome2;
   }
   
   //@Magda
   void reproduction(float pc, float pm){
-    DNA parentA = getParent();
-    DNA parentB = getParent(); 
+    DNA[] matingPool = createMatingPool();
+    DNA parentA = getParent(matingPool);
+    DNA parentB = getParent(matingPool); 
     DNA child;
     
     float crossover = random(0,1);
@@ -174,12 +217,14 @@ class Population{
 
 }
 
-//@Pawel
+/**
+* @author Paweł Raglis
+* @class DNA
+* @brief Instances of this class represent chromosomes.
+*/
 class DNA {
   private char[] genes;
   private int fitness;
-  
-  void checkifbest(){}
   
   DNA(int length){
     this.genes = new char[length];
@@ -195,11 +240,11 @@ class DNA {
       this.genes[i] = genes[i];
   }
   
-  char[] getGenes(){
+  public char[] getGenes(){
     return this.genes;
   }
   
-  int getFitness(){
+  public int getFitness(){
     return this.fitness;
   }
   
@@ -208,7 +253,7 @@ class DNA {
   * @brief Calculates fitness value, comparing the object with target.
   * @param target string
   */
-  void calculateFitness(String target){
+  public void calculateFitness(String target){
     int fitness = 0;
     for(int i=0; i<target.length(); i++){
       if(genes[i] == target.toCharArray()[i]) fitness++;
@@ -223,7 +268,7 @@ class DNA {
   * @param number of randlomly chosen crossover points
   * @return DNA array containing two children - outcome of crossover
   */
-  DNA[] crossover(DNA partner, int crossoverPointsCount){
+  public DNA[] crossover(DNA partner, int crossoverPointsCount){
     char[] genes1 = new char[this.toString().length()];
     char[] genes2 = new char[partner.toString().length()];
     Random generator = new Random();
@@ -259,7 +304,7 @@ class DNA {
   * @brief Performs mutation of the given number of genes.
   * @param number of randlomly affected genes
   */
-  void mutate(int genesCount){
+  public void mutate(int genesCount){
     Random generator = new Random();
     int locus;
     for(int i=0; i<genesCount; i++){
@@ -272,7 +317,7 @@ class DNA {
   * @fun mutate
   * @brief Performs mutation of the random number of genes.
   */
-  void mutate(){
+  public void mutate(){
     Random generator = new Random();
     int locus, genesCount;
     genesCount = generator.nextInt(genes.length-1) + 1;
