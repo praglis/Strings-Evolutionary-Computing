@@ -3,15 +3,14 @@ import static java.lang.Math.random;
 public class DNA {
     private char[] genes;
     private int fitness;
-
+    
     DNA(String target){
         int len = target.length();
         this.genes = new char[len];
 
         for(int i=0; i<len; i++)
-            //genes[i] = (char)((int)(random()%95*100+32)); -> 32-126
-            // small letters: genes[i] = (char) ((int)((random()*100)%25)+97);
-            genes[i] = (char) ((int)((random()*100)%5)+97);
+            genes[i] = randomChar(1);
+        
         this.calculateFitness(target);
     }
 
@@ -19,15 +18,23 @@ public class DNA {
         this.genes = genes;
         this.calculateFitness(target);
     }
-
+    
+    char randomChar(int i){
+        //ASCI table - <32, 126>:
+        if(i==0) return (char)((int)(random()%95*100+32)); 
+        
+        // small letters: 
+        else if(i==1) return (char) ((int)((random()*100)%25)+97);
+        
+        //letters {a,b,c,d,e}:
+        else return (char) ((int)((random()*100)%5)+97);
+    }
     public void mutate(int maxMutationPoints){
         int locus;
         int n = ((int)(random()*100))%maxMutationPoints;
         for(int i=0; i<n; i++){
             locus = ((int)(random()*100))%genes.length;
-            // normal range: this.genes[locus] = (char) ((int)(random()*100%95+32));
-            // small letters: this.genes[locus] = (char) ((int)((random()*100)%25)+97);
-            this.genes[locus] = (char) ((int)((random()*100)%5)+97);
+            this.genes[locus] = randomChar(1);;
         }
     }
 
