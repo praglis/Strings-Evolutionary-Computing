@@ -1,3 +1,5 @@
+import java.util.function.*;
+
 class Population
 {
     ArrayList<DNA> population;
@@ -11,10 +13,11 @@ class Population
     int maxCrossPoints;
     int maxMutPoints;
     int generation;
+    
+    private int pns = 3;
 
-    //generates RANDOM population
     Population(int pop_size, String target, double pm, double pc, int maxCross, int maxMut){
-        population = new ArrayList<>();
+        population = new ArrayList<DNA>();
         this.pop_size = pop_size;
         this.pm = pm;
         this.pc = pc;
@@ -28,7 +31,7 @@ class Population
     }
 
     void createMatingPool(){
-        this.matingPool = new ArrayList<>();
+        this.matingPool = new ArrayList<DNA>();
 
         if(best.getFitness()==0) {
             matingPool.addAll(population);
@@ -42,12 +45,8 @@ class Population
                 for (int x=0; x<n; x++)
                     matingPool.add(this.population.get(i));
             }
-
         }
-
     }
-
-
 
     void reproduction(){
         this.createMatingPool();
@@ -60,22 +59,51 @@ class Population
             int midpoints = (int) (random(0,this.maxCrossPoints) + 1);
 
             if (crossover <= this.pc) {
-
+                //println ("A[" + parentA.getFitness() + "]: " + parentA.toString());
+                //println ("B[" + parentB.getFitness() + "]: " + parentB.toString());
+              
                 DNA[] children = parentA.crossover(parentB.getGenes(), midpoints, this.target);
 
                 for (int j = 0; j < 2; j++) {
                     mutation = random(0,1);
                     if (mutation <= this.pm) children[j].mutate(this.maxMutPoints);
                 }
+                
+                //println ("AxB["+children[0].getFitness()+"] #1: " + children[0].toString());
+                //println ("AxB["+children[1].getFitness()+"] #2: " + children[1].toString());
 
-                population.set(i,children[0]);
-                population.set(i+1,children[1]);
+                population.add(i,children[0]);
+                population.add(i+1,children[1]);
                 i+=2;
             }
-
         }
-
+        
+        this.setBest();
+        this.naturalSelection(0);
+        this.setBest();
         this.generation++;
+    }
+    
+    int minFitness(){
+        int min = Integer.MAX_VALUE;
+        for(int i = 0; i < population.size(); i++ ){
+          if(this.population.get(i).getFitness() < min) min = this.population.get(i).getFitness();
+        }
+        
+        return min;
+    }
+    
+    void naturalSelection(int count){
+        int min = this.getBest().getFitness()-pns;
+        if(min < 0) min = 0;
+        
+        if(count == 0) count = -1;
+        for(int i = 0, k = 0; i < this.population.size(); i++){
+            if(this.population.get(i).getFitness() == min){
+                this.population.remove(i);
+                if(++k == count) break;
+            }
+        }
     }
    
     //--------- setters ----------------------
@@ -83,6 +111,10 @@ class Population
         best = population.get(0);
         for(int i=0; i<population.size(); i++)
             if(population.get(i).getFitness() > best.getFitness()) best = population.get(i);
+    }
+    
+    public void setPns(int pns){
+        this.pns = pns;
     }
 
     
@@ -95,6 +127,8 @@ class Population
         int i =(int)(random(0,this.matingPool.size()));
         return this.matingPool.get(i);
     }
+    
+    public int getPns(){ return this.pns; } 
 
     //--------- print functions ----------------------
     void printPopulation(){
