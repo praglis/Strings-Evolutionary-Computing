@@ -3,29 +3,17 @@ import java.util.function.*;
 class Population
 {
     ArrayList<DNA> population;
-    DNA best;
-    ArrayList<DNA> matingPool;
-
-    String target;
-    int pop_size;
-    double pm;
-    double pc;
-    int maxCrossPoints;
-    int maxMutPoints;
     int generation;
     
+    ArrayList<DNA> matingPool;
+    DNA best;
+   
     private int pns = 3;
 
-    Population(int pop_size, String target, double pm, double pc, int maxCross, int maxMut){
+    Population(int pop_size, String target){
         population = new ArrayList<DNA>();
-        this.pop_size = pop_size;
-        this.pm = pm;
-        this.pc = pc;
-        this.target = target;
         for(int i=0; i<pop_size; i++)
             population.add(new DNA(target));
-        this.maxCrossPoints = maxCross;
-        this.maxMutPoints = maxMut;
         this.setBest();
         this.generation = 0;
     }
@@ -48,7 +36,7 @@ class Population
         }
     }
 
-    void reproduction(){
+    void reproduction(int pop_size, int maxCrossPoints, int maxMutPoints, float pc, float pm, String target){
         this.createMatingPool();
         for(int i=0; i<=pop_size-2;) {
             DNA parentA = getParent();
@@ -56,22 +44,17 @@ class Population
 
             double crossover = random(0,1);
             double mutation;
-            int midpoints = (int) (random(0,this.maxCrossPoints) + 1);
+            int midpoints = (int) (random(0,maxCrossPoints) + 1);
 
-            if (crossover <= this.pc) {
-                //println ("A[" + parentA.getFitness() + "]: " + parentA.toString());
-                //println ("B[" + parentB.getFitness() + "]: " + parentB.toString());
-              
-                DNA[] children = parentA.crossover(parentB.getGenes(), midpoints, this.target);
+            if (crossover <= pc) {
+ 
+                DNA[] children = parentA.crossover(parentB.getGenes(), midpoints, target);
 
                 for (int j = 0; j < 2; j++) {
                     mutation = random(0,1);
-                    if (mutation <= this.pm) children[j].mutate(this.maxMutPoints);
+                    if (mutation <= pm) children[j].mutate(maxMutPoints);
                 }
                 
-                //println ("AxB["+children[0].getFitness()+"] #1: " + children[0].toString());
-                //println ("AxB["+children[1].getFitness()+"] #2: " + children[1].toString());
-
                 population.add(i,children[0]);
                 population.add(i+1,children[1]);
                 i+=2;
@@ -81,7 +64,7 @@ class Population
         this.setBest();
         this.naturalSelection(0);
         this.setBest();
-        this.generation++;
+
     }
     
     int minFitness(){
