@@ -78,7 +78,7 @@ class GA{
   * @return int iterator
   */
   public int getIterator() {return iterator;}
-}
+
 
  // ************************old code********************************************
   /**
