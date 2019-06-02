@@ -1,4 +1,4 @@
-class DNA {
+class DNA  implements Comparable<DNA> {
     private char[] genes;
     private int fitness;
 
@@ -16,7 +16,12 @@ class DNA {
         this.genes = genes;
         this.calculateFitness(target);
     }
-
+  
+  @Override
+  public int compareTo(DNA chromosome){
+    return Integer.compare(this.getFitness(),chromosome.getFitness());
+  }
+  
     char randomChar(int i){
         //ASCI table - <32, 126>:
         if(i==0) return (char)((int)random(32,136));

@@ -11,7 +11,7 @@ void setup(){
     int maxCrossPoints = 4;
     int maxMutations = target.length();
     
-    ga = new GA(target, pop_size, iter, pm, pc, maxCrossPoints, maxMutations);
+    GA ga = new GA(target, pop_size, iter, pm, pc, maxCrossPoints, maxMutations);
     ga.algorithm(1000);
     
 }
@@ -19,4 +19,3 @@ void setup(){
 void draw(){
 
 }
-
