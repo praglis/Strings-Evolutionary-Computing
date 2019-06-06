@@ -5,7 +5,7 @@ class Population
 {
     ArrayList<DNA> population;
     int pop_size;
-    int pop_multiplier = 1;
+    int pop_multiplier = 0;
     int generation;
     
     ArrayList<DNA> matingPool;
@@ -80,7 +80,7 @@ class Population
     
     void naturalSelection(){
         Collections.sort(this.population);
-        for(int i = 0; i < this.population.size() - (pop_size * pop_multiplier) / pop_size; i++){
+        for(int i = 0; i < this.population.size() - pop_size * pop_multiplier; i++){
             this.population.remove(0);
         }
     }
