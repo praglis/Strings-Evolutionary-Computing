@@ -1,14 +1,15 @@
 import java.util.function.*;
+import java.util.*;
 
 class Population
 {
     ArrayList<DNA> population;
+    int pop_size;
+    int pop_multiplier = 1;
     int generation;
     
     ArrayList<DNA> matingPool;
     DNA best;
-   
-    private int pns = 3;
 
     Population(int pop_size, String target){
         population = new ArrayList<DNA>();
@@ -16,6 +17,7 @@ class Population
             population.add(new DNA(target));
         this.setBest();
         this.generation = 0;
+        this.pop_size = pop_size;
     }
 
     void createMatingPool(){
@@ -62,7 +64,7 @@ class Population
         }
         
         this.setBest();
-        this.naturalSelection(0);
+        this.naturalSelection();
         this.setBest();
 
     }
@@ -76,16 +78,10 @@ class Population
         return min;
     }
     
-    void naturalSelection(int count){
-        int min = this.getBest().getFitness()-pns;
-        if(min < 0) min = 0;
-        
-        if(count == 0) count = -1;
-        for(int i = 0, k = 0; i < this.population.size(); i++){
-            if(this.population.get(i).getFitness() == min){
-                this.population.remove(i);
-                if(++k == count) break;
-            }
+    void naturalSelection(){
+        Collections.sort(this.population);
+        for(int i = 0; i < this.population.size() - (pop_size * pop_multiplier) / pop_size; i++){
+            this.population.remove(0);
         }
     }
    
@@ -96,11 +92,6 @@ class Population
             if(population.get(i).getFitness() > best.getFitness()) best = population.get(i);
     }
     
-    public void setPns(int pns){
-        this.pns = pns;
-    }
-
-    
     //--------- getters ----------------------
     public DNA getBest(){
         return this.best;
@@ -110,8 +101,6 @@ class Population
         int i =(int)(random(0,this.matingPool.size()));
         return this.matingPool.get(i);
     }
-    
-    public int getPns(){ return this.pns; } 
 
     //--------- print functions ----------------------
     void printPopulation(){

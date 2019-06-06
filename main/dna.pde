@@ -17,21 +17,22 @@ class DNA  implements Comparable<DNA> {
         this.calculateFitness(target);
     }
   
-  @Override
-  public int compareTo(DNA chromosome){
-    return Integer.compare(this.getFitness(),chromosome.getFitness());
-  }
+    @Override
+    public int compareTo(DNA chromosome){
+      return Integer.compare(this.getFitness(),chromosome.getFitness());
+    }
   
     char randomChar(int i){
         //ASCI table - <32, 126>:
         if(i==0) return (char)((int)random(32,136));
 
-            // small letters:
+        // small letters:
         else if(i==1) return (char)((int)random(97,122));
 
-            //letters {a,b,c,d,e}:
+        //letters {a,b,c,d,e}:
         else return (char)((int)random(97,101));
     }
+    
     public void mutate(int maxMutationPoints){
         int locus;
         int n = (int)random(0,maxMutationPoints);

@@ -46,13 +46,13 @@ public void set_popsize_click(GButton source, GEvent event) { //_CODE_:button_po
 
 public void set_pc_click(GButton source, GEvent event) { //_CODE_:button_pc:565638:
   String new_pc = textfield_pc.getText();
-  pc = Integer.parseInt(new_pc);
+  pc = Float.parseFloat(new_pc);
   textfield_pc.setText(""+pc);
 } //_CODE_:button_pc:565638:
 
 public void set_pm_click(GButton source, GEvent event) { //_CODE_:button_pm:601022:
   String new_pm = textfield_pm.getText();
-  pm = Integer.parseInt(new_pm);
+  pm = Float.parseFloat(new_pm);
   textfield_pm.setText(""+pm);
 } //_CODE_:button_pm:601022:
 
@@ -81,11 +81,14 @@ public void textfield_bfit_val_change(GTextField source, GEvent event) { //_CODE
 
 public void imgTogButton1_click1(GImageToggleButton source, GEvent event) { //_CODE_:imgTogButton1:632907:
   run = !run;
+  textfield1_iter.setText(""+ga.iterator);
+  textfield_bestfit.setText( ga.pop.getBest().toString());
+  textfield_bfit_val.setText("" + ga.pop.getBest().fitness + "/" + target.length());
 } //_CODE_:imgTogButton1:632907:
 
 public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:815227:
   ga = new GA(target, pop_size, iter, pm, pc, maxCrossPoints, maxMutations);
-  run=true;
+  run = true;
 } //_CODE_:button1:815227:
 
 public void button2_click1(GButton source, GEvent event) { 
@@ -114,18 +117,24 @@ public void tf_parent1_change(GTextField source, GEvent event) {
 public void tf_parent2_change(GTextField source, GEvent event) { 
 } 
 
-public void set_maxcross_click(GButton source, GEvent event) { 
+public void set_maxcross_click(GButton source, GEvent event) {
+  String new_cross = textfield_maxcross.getText();
+  maxCrossPoints = Integer.parseInt(new_cross);
+  textfield_maxcross.setText(""+maxCrossPoints);
 } 
 
 public void tf_maxmut_change(GTextField source, GEvent event) { 
 } 
 
 public void set_maxmut_click(GButton source, GEvent event) { 
+  String new_mut = textfield_maxmut.getText();
+  maxMutations = Integer.parseInt(new_mut);
+  textfield_maxmut.setText(""+maxMutations);
 } 
 
 public void set_crossnum_click(GButton source, GEvent event) { 
   String new_cross = textfield_crossnum.getText();
-  crossPoints = Integer.parseInt(new_cross );
+  crossPoints = Integer.parseInt(new_cross);
   textfield_crossnum.setText(""+crossPoints);
 } 
 
