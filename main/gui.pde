@@ -100,11 +100,12 @@ public void show_cross_click(GButton source, GEvent event) {
   DNA parent2 = ga.pop.getParent();
   textfield_parent1.setText(parent1.toString());
   textfield_parent2.setText(parent2.toString());
-  DNA[] children = parent1.crossover(parent2.getGenes(), crossPoints, target);
-  textfield_child1.setText(children[0].toString());
-  textfield_child2.setText(children[1].toString());
+  String[] children = parent1.crossoverVisual(parent2.getGenes(), crossPoints);
+  println("Crossover: "+children[0]);
+  println("Crossover: "+children[1]);
+  textfield_child1.setText(""+children[0]);
+  textfield_child2.setText(""+children[1]);
 }
-
 public void tf_maxcross_change(GTextField source, GEvent event) { 
 } 
 
