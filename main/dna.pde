@@ -81,7 +81,67 @@ class DNA  implements Comparable<DNA> {
         DNA[] children = {new DNA(genes1, target), new DNA(genes2, target)};
         return children;
     }
+    
+     public String[] crossoverVisual(char[] partner, int crossoverPoints){
+        int N = this.genes.length;
+        char[] genes1 = new char[N];
+        char[] genes2 = new char[N];
 
+        boolean cPoints[] = new boolean[N];
+        int cPoint;
+        ArrayList<Integer> cpoints = new ArrayList(crossoverPoints);
+
+        for(int i=0; i<crossoverPoints; i++){
+            cPoint = (int)random(0,N);
+            if(cPoints[cPoint]) i--;
+            else {
+              cPoints[cPoint] = true;
+              cpoints.add(cPoint);
+            }
+        }
+
+        boolean parentSwitch = true;
+
+        for(int i=0; i<this.genes.length; i++){
+
+            if(parentSwitch){
+                genes1[i] = this.genes[i];
+                genes2[i] = partner[i];
+            }
+            else {
+                genes1[i] = partner[i];
+                genes2[i] = this.genes[i];
+            }
+            if (cPoints[i] == true) parentSwitch = !parentSwitch;
+        }
+           
+        char[] newGenes1 = new char[N+crossoverPoints*3];
+        char[] newGenes2 = new char[N+crossoverPoints*3];
+     
+        for(int i=0, j=0; i<N; i++, j++){
+          if(cpoints.contains(i)){
+              newGenes1[j]=genes1[i];
+              newGenes2[j]=genes2[i];
+              j++;
+              newGenes1[j]=' ';
+              newGenes2[j]=' ';
+              j++;
+              newGenes1[j]='~';
+              newGenes2[j]='~';
+              j++;
+              newGenes1[j]=' ';
+              newGenes2[j]=' ';
+          }
+          else{
+             newGenes1[j]=genes1[i];
+             newGenes2[j]=genes2[i];
+          }
+        }
+       
+        String[] children = {new String(newGenes1), new String(newGenes2)};
+        return children;
+    }
+    
     //overriding the toString() method
     public String toString(){
         return new String(genes);
