@@ -12,6 +12,7 @@ float pc, pm;
 // Flags:
 Boolean run = false;
 Boolean step = false;
+Boolean end = false;
 
 void setup(){
   
@@ -19,9 +20,9 @@ void setup(){
     size(840,680,JAVA2D);
     background(255);
     createGUI();
-    //customGUI();
+
         
-    //Algorithm default parameters:
+    //Algorithm's default parameters:
     target = "czekaj";
     pop_size = 10;
     pc = 0.85;
@@ -31,9 +32,7 @@ void setup(){
     maxMutations = target.length();
     crossPoints=2;
     
-    //ga.algorithm(1000);
-    
-    //temporary default setup
+    //textfields' setup
     textfield_target.appendText(""+ target);
     textfield_popsize.appendText("" + pop_size); 
     textfield_pc.appendText("" + pc); 
@@ -55,11 +54,11 @@ void draw(){
         textfield1_iter.setText(""+ga.iterator);
         textfield_bestfit.setText( ga.pop.getBest().toString());
         textfield_bfit_val.setText("" + ga.pop.getBest().fitness + "/" + target.length());
-     }
-     if(ga.iterator <= ga.iterations) {
-            
-        ga.printStats(); 
+        end = true;
         
+     }
+     if(ga.iterator <= ga.iterations && end == false) {     
+        ga.printStats(); 
         textfield1_iter.setText(""+ga.iterator);
         textfield_bestfit.setText( ga.pop.getBest().toString());
         textfield_bfit_val.setText("" + ga.pop.getBest().fitness + "/" + target.length());
@@ -75,7 +74,7 @@ void draw(){
           textfield_bfit_val.setText("" + ga.pop.getBest().fitness + "/" + target.length());
           run = false;
        }
-      if(ga.iterator <= ga.iterations) {
+      if(ga.iterator <= ga.iterations && run == true) {
           if(ga.iterator%1==0){
               ga.printStats(); 
               textfield1_iter.setText(""+ga.iterator);
@@ -85,7 +84,5 @@ void draw(){
           ga.step();
       }
   }
-    //exit();  
-  
  
 }
