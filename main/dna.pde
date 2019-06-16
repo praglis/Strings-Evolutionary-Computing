@@ -23,8 +23,8 @@ class DNA  implements Comparable<DNA> {
     }
   
     char randomChar(int i){
-        //ASCI table - <32, 126>:
-        if(i==0) return (char)((int)random(32,136));
+        //ASCI table - <32, 125>:
+        if(i==0) return (char)((int)random(32,125));
 
         // small letters:
         else if(i==1) return (char)((int)random(97,122));
