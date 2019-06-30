@@ -1,5 +1,5 @@
 # String-Finder-Evolutional-Computation
-Project done in Processing environment, inspired by Infinite monkey theorem.
+Small gruop project done in Processing environment, inspired by Infinite monkey theorem.
 Implemented genetic algorithm was used to obtain given sentence from population of random character sequences of the given length.
 
 ## Team:
